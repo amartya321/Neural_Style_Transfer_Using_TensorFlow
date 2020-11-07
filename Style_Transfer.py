@@ -113,7 +113,7 @@ class StyleContentModel(tf.keras.models.Model):
     self.vgg.trainable = False
 
   def call(self, inputs):
-    "Expects float input in [0,1]"
+    #"Expects float input in [0,1]"
     inputs = inputs*255.0
     preprocessed_input = tf.keras.applications.vgg19.preprocess_input(inputs)
     outputs = self.vgg(preprocessed_input)
@@ -133,3 +133,30 @@ class StyleContentModel(tf.keras.models.Model):
     
     return {'content':content_dict, 'style':style_dict}
 
+extractor = StyleContentModel(style_layers, content_layers)
+
+results = extractor(tf.constant(content_image))
+
+
+
+print('Styles:')
+for name, output in sorted(results['style'].items()):
+  print("  ", name)
+  print("    shape: ", output.numpy().shape)
+  print("    min: ", output.numpy().min())
+  print("    max: ", output.numpy().max())
+  print("    mean: ", output.numpy().mean())
+  print()
+
+print("Contents:")
+for name, output in sorted(results['content'].items()):
+  print("  ", name)
+  print("    shape: ", output.numpy().shape)
+  print("    min: ", output.numpy().min())
+  print("    max: ", output.numpy().max())
+  print("    mean: ", output.numpy().mean())
+
+
+style_targets = extractor(style_image)['style']
+content_targets = extractor(content_image)['content']
+image = tf.Variable(content_image)
