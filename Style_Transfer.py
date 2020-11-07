@@ -160,3 +160,6 @@ for name, output in sorted(results['content'].items()):
 style_targets = extractor(style_image)['style']
 content_targets = extractor(content_image)['content']
 image = tf.Variable(content_image)
+
+def clip_0_1(image):
+  return tf.clip_by_value(image, clip_value_min=0.0, clip_value_max=1.0)
