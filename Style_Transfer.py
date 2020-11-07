@@ -58,4 +58,13 @@ def load_img(path_to_img):
   img = tf.image.resize(img, new_shape)
   img = img[tf.newaxis, :]
   return img
-  
+content_image = load_img(content_path)
+style_image = load_img(style_path)
+print(content_image.shape)
+print(style_image.shape)
+plt.subplot(1, 2, 1)
+imshow(content_image, 'Content Image')
+
+plt.subplot(1, 2, 2)
+imshow(style_image, 'Style Image')  
+plt.show()  
