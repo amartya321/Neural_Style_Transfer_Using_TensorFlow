@@ -58,6 +58,9 @@ def load_img(path_to_img):
   img = tf.image.resize(img, new_shape)
   img = img[tf.newaxis, :]
   return img
+
+
+
 content_image = load_img(content_path)
 style_image = load_img(style_path)
 print(content_image.shape)
@@ -68,3 +71,28 @@ imshow(content_image, 'Content Image')
 plt.subplot(1, 2, 2)
 imshow(style_image, 'Style Image')  
 plt.show()  
+
+content_layers = ['block5_conv2'] 
+
+style_layers = ['block1_conv1',
+                'block2_conv1',
+                'block3_conv1', 
+                'block4_conv1', 
+                'block5_conv1']
+
+
+num_content_layers = len(content_layers)
+num_style_layers = len(style_layers)
+
+
+def vgg_layers(layer_names):
+  """ Creates a vgg model that returns a list of intermediate output values."""
+  # Load our model. Load pretrained VGG, trained on imagenet data
+  vgg = tf.keras.applications.VGG19(include_top=False, weights='imagenet')
+  vgg.trainable = False
+  
+  outputs = [vgg.get_layer(name).output for name in layer_names]
+
+  model = tf.keras.Model([vgg.input], outputs)
+  return model
+
