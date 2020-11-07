@@ -18,4 +18,23 @@ def tensor_to_image(tensor):
 
 
 content_path = 'Content.jpg'
-style_path= 'Style.jpg'  
+style_path= 'Style.jpg'
+
+def imshow(image, title=None):
+  if len(image.shape) > 3:
+    image = tf.squeeze(image, axis=0)
+
+  plt.imshow(image)
+  if title:
+    plt.title(title)
+
+
+def imshow(image, title=None):
+  if len(image.shape) > 3:
+    image = tf.squeeze(image, axis=0) 
+    ### remove dim of size 1 
+
+  plt.imshow(image)
+  if title:
+    plt.title(title)
+
