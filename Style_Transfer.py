@@ -197,3 +197,31 @@ def train_step(image):
   grad = tape.gradient(loss, image)
   opt.apply_gradients([(grad, image)])
   image.assign(clip_0_1(image))
+
+
+train_step(image)
+train_step(image)
+train_step(image)
+plt.imshow(tensor_to_image(image))
+plt.show()
+
+
+
+import time
+start = time.time()
+
+epochs = 10
+steps_per_epoch = 10
+
+step = 0
+for n in range(epochs):
+  for m in range(steps_per_epoch):
+    step += 1
+    train_step(image)
+    print(".", end='')
+  print("Train step: {}".format(step))
+  plt.imshow(tensor_to_image(image))
+  plt.show()
+  
+end = time.time()
+print("Total time: {:.1f}".format(end-start))
